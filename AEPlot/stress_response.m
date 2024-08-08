@@ -1,6 +1,6 @@
 
 %% Calculate corrlen at given distance from transition point
-
+addpath('../AECode/')
 params.alpha_val = 0.75;
 params.p = 2;
 params.m = 11;
