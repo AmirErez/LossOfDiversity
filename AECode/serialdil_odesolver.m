@@ -18,6 +18,7 @@ for cnt=1:params.max_batches
     end
     %Simulate batch
     [rho_sigma, Nr] = multispeciesbatch_odesolver(params,0);
+    
     params.b0=rho_sigma(:,end)/sum(rho_sigma(:,end));
     output.rho(:,cnt) = params.b0*params.rho0;
     output.NutIntegrals(:, cnt) = Nr';

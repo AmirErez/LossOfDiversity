@@ -22,6 +22,11 @@ options = odeset('NonNegative',1,'RelTol',1e-11);
 %[t,y] = ode15s(@(t,y) odefun(t,y,params), tspan, y0, options);
 [t,y] = ode15s(@(t,y) odefun(t,y,params), [0,20], y0, options);
 
+if isfield(params, 'Gamma')
+    [t,y] = ode15s(@(t,y) odefun_crossfeeding(t,y,params), [0,20], y0, options);
+else
+    [t,y] = ode15s(@(t,y) odefun(t,y,params), [0,20], y0, options);
+end
 c_i = y(:,1:params.p)';
 rho_sigma = y(:,(params.p+1):end)';
 Nr = trapz(t,transpose((c_i./(params.K+c_i)))); %Compute integral of growth
@@ -37,9 +42,9 @@ if plt == 1
             'DisplayName', mat2str(params.alpha(mm,:)))
         hold on
     end
-    title('$\rho_{sigma}$ vs. Time', 'Interpreter','latex')
+    title('$\rho_{\sigma}$ vs. Time', 'Interpreter','latex')
     xlabel('Time','Interpreter','latex')
-    ylabel('$\rho_{sigma}$', 'Interpreter','latex')
+    ylabel('$\rho_{\sigma}$', 'Interpreter','latex')
     legend;
 
     %PLOT CONCENTRATIONS
